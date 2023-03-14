@@ -5,9 +5,9 @@ on:
     - main
 env:
   CONTAINER_APP_CONTAINER_NAME: weatherweb
-  CONTAINER_APP_NAME: weather-web
-  CONTAINER_APP_RESOURCE_GROUP_NAME: dotnet-conf-2022
-  CONTAINER_REGISTRY_LOGIN_SERVER: ca6dd75f61c0acr.azurecr.io
+  CONTAINER_APP_NAME: mycontainerapp 
+  CONTAINER_APP_RESOURCE_GROUP_NAME: MyContainerAppRG
+  CONTAINER_REGISTRY_LOGIN_SERVER: taskstrackeracrvkp.azurecr.io
   DOCKER_FILE_PATH: ./Dockerfile
   PROJECT_NAME_FOR_DOCKER: weatherweb
 jobs:
@@ -22,8 +22,8 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: ${{ env.CONTAINER_REGISTRY_LOGIN_SERVER }}
-        username: ${{ secrets.ca6dd75f61c0acr_USERNAME_11F7 }}
-        password: ${{ secrets.ca6dd75f61c0acr_PASSWORD_11F7 }}
+        username: ${{ secrets.TASKSMANAGER_REGISTRY_USERNAME }}
+        password: ${{ secrets.TASKSMANAGER_REGISTRY_PASSWORD }}
     - name: Build and push container image to registry
       uses: docker/build-push-action@v2
       with:
@@ -37,7 +37,7 @@ jobs:
     - name: Azure Login
       uses: azure/login@v1
       with:
-        creds: ${{ secrets.weather_web_SPN }}
+        creds: ${{ secrets.TASKSMANAGER_AZURE_CREDENTIALS }}
     - name: Deploy to containerapp
       uses: azure/CLI@v1
       with:
